@@ -1,5 +1,6 @@
 package farmskin.library.controller;
 
+import farmskin.library.domain.type.Category;
 import farmskin.library.dto.BookResponseDto;
 import farmskin.library.dto.BookSaveRequestDto;
 import farmskin.library.dto.BookUpdateRequestDto;
@@ -25,7 +26,7 @@ public class BookController {
 
   private final BookService bookService;
 
-  /** 도서 - 등록 */
+  /** 도서 - 신규 등록 */
   @PostMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<Long> save(@RequestBody BookSaveRequestDto bookSaveRequestDto) {
 
@@ -52,7 +53,7 @@ public class BookController {
     return new ResponseEntity<BookResponseDto>(bookResponseDto, HttpStatus.OK);
   }
 
-  /** 도서 - 수정 */
+  /** 도서 - 정보 변경 */
   @PutMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<Long> update(@PathVariable("id") Long id, @RequestBody BookUpdateRequestDto bookUpdateRequestDto) {
 
@@ -75,6 +76,15 @@ public class BookController {
   public ResponseEntity<List<BookResponseDto>> findByTitleAndAuthor(String keyword) {
 
     List<BookResponseDto> bookResponseDtoList = bookService.findByTitleAndAuthor(keyword);
+
+    return new ResponseEntity<List<BookResponseDto>>(bookResponseDtoList, HttpStatus.OK);
+  }
+
+  /** 도서 - 카테고리 조회 */
+  @GetMapping(value = "/category", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<List<BookResponseDto>> findByCategory(Category category) {
+
+    List<BookResponseDto> bookResponseDtoList = bookService.findByCategory(category);
 
     return new ResponseEntity<List<BookResponseDto>>(bookResponseDtoList, HttpStatus.OK);
   }

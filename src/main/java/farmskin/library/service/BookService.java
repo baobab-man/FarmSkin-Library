@@ -1,6 +1,7 @@
 package farmskin.library.service;
 
 import farmskin.library.domain.Book;
+import farmskin.library.domain.type.Category;
 import farmskin.library.dto.BookResponseDto;
 import farmskin.library.dto.BookSaveRequestDto;
 import farmskin.library.dto.BookUpdateRequestDto;
@@ -17,7 +18,7 @@ public class BookService {
 
   private final BookRepository bookRepository;
 
-  /** 도서 - 등록 */
+  /** 도서 - 신규 등록 */
   @Transactional
   public Long save(BookSaveRequestDto bookSaveRequestDto) {
 
@@ -45,7 +46,7 @@ public class BookService {
     return new BookResponseDto(book);
   }
 
-  /** 도서 - 수정 */
+  /** 도서 - 정보 변경 */
   @Transactional
   public Long update(Long id, BookUpdateRequestDto bookUpdateRequestDto) {
 
@@ -78,6 +79,17 @@ public class BookService {
 
     return bookRepository
         .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(keyword, keyword)
+        .stream()
+        .map(BookResponseDto::new)
+        .collect(Collectors.toList());
+  }
+
+  /** 도서 - 카테고리 조회 */
+  @Transactional(readOnly = true)
+  public List<BookResponseDto> findByCategory(Category category) {
+
+    return bookRepository
+        .findByCategory(category)
         .stream()
         .map(BookResponseDto::new)
         .collect(Collectors.toList());
