@@ -2,7 +2,10 @@ package farmskin.library.domain;
 
 import farmskin.library.domain.type.BookStatus;
 import farmskin.library.domain.type.Category;
+import farmskin.library.domain.type.converter.BookStatusConverter;
+import farmskin.library.domain.type.converter.CategoryConverter;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,11 +34,11 @@ public class Book {
   @Column(name = "author", nullable = false)
   private String author;
 
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = BookStatusConverter.class)
   @Column(name = "status", nullable = false)
   private BookStatus status;
 
-  @Enumerated(EnumType.STRING)
+  @Convert(converter = CategoryConverter.class)
   @Column(name = "category", nullable = false)
   private Category category;
 

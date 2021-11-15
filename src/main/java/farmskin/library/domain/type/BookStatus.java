@@ -8,7 +8,7 @@ public enum BookStatus {
 
   private final String value;
 
-  private BookStatus(String value) {
+  BookStatus(String value) {
     this.value = value;
   }
 
