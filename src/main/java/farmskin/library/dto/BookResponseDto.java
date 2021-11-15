@@ -6,12 +6,12 @@ import lombok.Getter;
 @Getter
 public class BookResponseDto {
 
-  private Long bookId;
+  private Long id;
   private String title;
   private String author;
 
   public BookResponseDto(Book book) {
-    this.bookId = book.getId();
+    this.id = book.getId();
     this.title = book.getTitle();
     this.author = book.getAuthor();
   }

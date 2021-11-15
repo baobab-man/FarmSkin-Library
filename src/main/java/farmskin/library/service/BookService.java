@@ -37,33 +37,44 @@ public class BookService {
 
   /** 도서 - 단건 조회 */
   @Transactional(readOnly = true)
-  public BookResponseDto findById(Long bookId) {
+  public BookResponseDto findById(Long id) {
 
-    Book book = bookRepository.findById(bookId)
-        .orElseThrow(() -> new IllegalAccessError("[bookId=" + bookId + "] 해당 도서가 존재하지 않습니다."));
+    Book book = bookRepository.findById(id)
+        .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 도서가 존재하지 않습니다."));
 
     return new BookResponseDto(book);
   }
 
   /** 도서 - 수정 */
   @Transactional
-  public Long update(Long bookId, BookUpdateRequestDto bookUpdateRequestDto) {
+  public Long update(Long id, BookUpdateRequestDto bookUpdateRequestDto) {
 
-    Book book = bookRepository.findById(bookId)
-        .orElseThrow(() -> new IllegalAccessError("[bookId=" + bookId + "] 해당 도서가 존재하지 않습니다."));
+    Book book = bookRepository.findById(id)
+        .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 도서가 존재하지 않습니다."));
 
     book.update(bookUpdateRequestDto.getTitle(), bookUpdateRequestDto.getAuthor());
 
-    return bookId;
+    return id;
   }
 
   /** 도서 - 삭제 */
   @Transactional
-  public void delete(Long bookId) {
+  public void delete(Long id) {
 
-    Book book = bookRepository.findById(bookId)
-        .orElseThrow(() -> new IllegalAccessError("[bookId=" + bookId + "] 해당 도서가 존재하지 않습니다."));
+    Book book = bookRepository.findById(id)
+        .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 도서가 존재하지 않습니다."));
 
     bookRepository.delete(book);
+  }
+
+  /** 도서 - 키워드(제목이나 저자) 조회 */
+  @Transactional(readOnly = true)
+  public List<BookResponseDto> findByTitleAndAuthor(String keyword) {
+
+    return bookRepository
+        .findByTitleContainingIgnoreCaseOrAuthorContainingIgnoreCase(keyword, keyword)
+        .stream()
+        .map(BookResponseDto::new)
+        .collect(Collectors.toList());
   }
 }

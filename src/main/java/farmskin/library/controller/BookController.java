@@ -25,6 +25,15 @@ public class BookController {
 
   private final BookService bookService;
 
+  /** 도서 - 등록 */
+  @PostMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<Long> save(@RequestBody BookSaveRequestDto bookSaveRequestDto) {
+
+    Long savedId = bookService.save(bookSaveRequestDto);
+
+    return new ResponseEntity<Long>(savedId, HttpStatus.CREATED);
+  }
+
   /** 도서 - 목록 조회  */
   @GetMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<List<BookResponseDto>> findAll() {
@@ -35,38 +44,38 @@ public class BookController {
   }
 
   /** 도서 - 단건 조회 */
-  @GetMapping(value = "/{bookId}", produces = { MediaType.APPLICATION_JSON_VALUE })
-  public ResponseEntity<BookResponseDto> findById(@PathVariable("bookId") Long bookId) {
+  @GetMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<BookResponseDto> findById(@PathVariable("id") Long id) {
 
-    BookResponseDto bookResponseDto = bookService.findById(bookId);
+    BookResponseDto bookResponseDto = bookService.findById(id);
 
     return new ResponseEntity<BookResponseDto>(bookResponseDto, HttpStatus.OK);
   }
 
-  /** 도서 - 등록 */
-  @PostMapping(value = "", produces = { MediaType.APPLICATION_JSON_VALUE })
-  public ResponseEntity<Long> save(@RequestBody BookSaveRequestDto bookSaveRequestDto) {
-
-    Long savedBookId = bookService.save(bookSaveRequestDto);
-
-    return new ResponseEntity<Long>(savedBookId, HttpStatus.CREATED);
-  }
-
   /** 도서 - 수정 */
-  @PutMapping(value = "/{bookId}", produces = { MediaType.APPLICATION_JSON_VALUE })
-  public ResponseEntity<Long> update(@PathVariable("bookId") Long bookId, @RequestBody BookUpdateRequestDto bookUpdateRequestDto) {
+  @PutMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<Long> update(@PathVariable("id") Long id, @RequestBody BookUpdateRequestDto bookUpdateRequestDto) {
 
-    Long updatedBookId = bookService.update(bookId, bookUpdateRequestDto);
+    Long updatedId = bookService.update(id, bookUpdateRequestDto);
 
-    return new ResponseEntity<Long>(updatedBookId, HttpStatus.CREATED);
+    return new ResponseEntity<Long>(updatedId, HttpStatus.CREATED);
   }
 
   /** 도서 - 삭제 */
-  @DeleteMapping(value = "/{bookId}", produces = { MediaType.APPLICATION_JSON_VALUE })
-  public ResponseEntity<Long> delete(@PathVariable("bookId") Long bookId) {
+  @DeleteMapping(value = "/{id}", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<Long> delete(@PathVariable("id") Long id) {
 
-    bookService.delete(bookId);
+    bookService.delete(id);
 
-    return new ResponseEntity<Long>(bookId, HttpStatus.NO_CONTENT);
+    return new ResponseEntity<Long>(id, HttpStatus.NO_CONTENT);
+  }
+
+  /** 도서 - 키워드(제목이나 저자) 조회 */
+  @GetMapping(value = "/keyword", produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<List<BookResponseDto>> findByTitleAndAuthor(String keyword) {
+
+    List<BookResponseDto> bookResponseDtoList = bookService.findByTitleAndAuthor(keyword);
+
+    return new ResponseEntity<List<BookResponseDto>>(bookResponseDtoList, HttpStatus.OK);
   }
 }
