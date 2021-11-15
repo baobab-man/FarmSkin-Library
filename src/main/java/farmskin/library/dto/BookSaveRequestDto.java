@@ -3,7 +3,6 @@ package farmskin.library.dto;
 import farmskin.library.domain.Book;
 import farmskin.library.domain.type.BookStatus;
 import farmskin.library.domain.type.Category;
-import java.util.Calendar;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
