@@ -52,7 +52,12 @@ public class BookService {
     Book book = bookRepository.findById(id)
         .orElseThrow(() -> new IllegalAccessError("[id=" + id + "] 해당 도서가 존재하지 않습니다."));
 
-    book.update(bookUpdateRequestDto.getTitle(), bookUpdateRequestDto.getAuthor());
+    book.update(
+        bookUpdateRequestDto.getTitle(),
+        bookUpdateRequestDto.getAuthor(),
+        bookUpdateRequestDto.getCategory(),
+        bookUpdateRequestDto.getStatus()
+    );
 
     return id;
   }

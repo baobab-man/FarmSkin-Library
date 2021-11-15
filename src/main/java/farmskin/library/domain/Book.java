@@ -1,5 +1,7 @@
 package farmskin.library.domain;
 
+import farmskin.library.domain.type.BookStatus;
+import farmskin.library.domain.type.Category;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -29,22 +31,26 @@ public class Book {
   @Column(name = "author", nullable = false)
   private String author;
 
-//  @Enumerated(EnumType.STRING)
-//  @Column(name = "status", nullable = false)
-//  private BookStatus status;
-//
-//  @Enumerated(EnumType.STRING)
-//  @Column(name = "category", nullable = false)
-//  private Category category;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "status", nullable = false)
+  private BookStatus status;
+
+  @Enumerated(EnumType.STRING)
+  @Column(name = "category", nullable = false)
+  private Category category;
 
   @Builder
-  public Book(String title, String author) {
+  public Book(String title, String author, Category category, BookStatus status) {
     this.title = title;
     this.author = author;
+    this.category = category;
+    this.status = status;
   }
 
-  public void update(String title, String author) {
+  public void update(String title, String author, Category category, BookStatus status) {
     this.title = title;
     this.author = author;
+    this.category = category;
+    this.status = status;
   }
 }
