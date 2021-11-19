@@ -1,4 +1,4 @@
-# FarmSkin-Library
+# 도서관리 시스템
 ## 개발 Spec
 ### Project : Graven
 ### Spring Boot : 2.4.12
